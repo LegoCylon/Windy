@@ -52,19 +52,39 @@ Shader "Sprites/Windy"
 
         Varyings Vert(Attributes i)
         {
-            float heightAttenuation = .5 * (1 - _WindResistance) * (1 + i.vertex.y);
+            // Assuming object space coordinates of -1 -> 1, and that vertexes at -1 should remain stationary,
+            // transform to 0 to 1 and apply wind resistance.
+            // This would need to be inverted in a cave with vines hanging from the ceiling, for example.
+            // This would also be an ideal place to use a secondary texture with the same texture coordinates as
+            // _MainTex to precisely control the attenuation; that would also let us use dynamic batching.
+            float heightAttenuation = 0.5 * (1 - _WindResistance) * (1 + i.vertex.y);
 
+            // Wind vertex animation is performed in world space to facilitate random variation across adjacent objects.
             float3 wPos = TransformObjectToWorld(i.vertex);
 
             float2 windVector = float2(2, 0);
+
+            // Sample a noise texture based on scaled world position offset by time and attenuated by the frequency.
+            // Note that because this is sampled in the vertex shader, we have to use the LOD version since the vertex
+            // shader is unable to measure fragment derivatives to determine the appropriate mip level.
             float2 windNoiseCoord = (wPos.xy * _NoiseScale + _Time[1] * _NoiseSpeed) * _NoiseFrequency;
             float windNoise = SAMPLE_TEXTURE2D_LOD(_NoiseTex, sampler_NoiseTex, windNoiseCoord, 0);
+
+            // Adjust the noise contrast and then attenuate the overall amount of noise.
             windNoise = _NoiseMagnitude * ((windNoise - 0.5) * (_NoiseContrast + 1)) + 0.5;
 
-            float2 windSway = 0.5 * _SwayMagnitude * ((1).xx + cos((wPos.xy + (_Time[1]).xx * _SwaySpeed)) * _SwayFrequency);
+            // To simulate the motion of foliage swaying in the wind (that is stretching & contracting), sample a wave
+            // using world space coordinates offset by time and attenuated by the desired frequency.
+            // Note that the wave sample is between -1 -> 1, so it will negate or exaggerate motion in the direction of
+            // the wind.
+            // Also, since the wave is sampled using world space coordinates, sine could be used instead of cosine.
+            float2 windSway = _SwayMagnitude * (cos((wPos.xy + (_Time[1]).xx * _SwaySpeed)) * _SwayFrequency);
 
+            // Adjust the world space vertex based on height-attenuated noise and sway motion in the direction and
+            // magnitude of the wind.
+            // When debugging, we don't apply the motion since it makes it harder to study the fragment output.
             #if !WINDY_DEBUG
-            wPos.xy += heightAttenuation * (windVector * windNoise - windVector * windSway);
+            wPos.xy += heightAttenuation * (windVector * windNoise + windVector * windSway);
             #endif
 
             Varyings o;
