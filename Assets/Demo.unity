@@ -818,6 +818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 401132275}
   - component: {fileID: 401132276}
+  - component: {fileID: 401132277}
   m_Layer: 0
   m_Name: Plants_3
   m_TagString: Untagged
@@ -889,6 +890,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &401132277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401132274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 401132276}
 --- !u!1 &427631192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,6 +1371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 818992165}
   - component: {fileID: 818992164}
+  - component: {fileID: 818992166}
   m_Layer: 0
   m_Name: Plants_18
   m_TagString: Untagged
@@ -1428,6 +1443,19 @@ Transform:
   m_Father: {fileID: 878982253}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &818992166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818992163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 818992164}
 --- !u!1 &821231264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2058,6 +2086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1138959052}
   - component: {fileID: 1138959051}
+  - component: {fileID: 1138959053}
   m_Layer: 0
   m_Name: Plants_1
   m_TagString: Untagged
@@ -2129,6 +2158,19 @@ Transform:
   m_Father: {fileID: 878982253}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1138959053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138959050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 1138959051}
 --- !u!1001 &1141565044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2346,6 +2388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1210770984}
   - component: {fileID: 1210770983}
+  - component: {fileID: 1210770985}
   m_Layer: 0
   m_Name: Plants_2
   m_TagString: Untagged
@@ -2416,6 +2459,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 878982253}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210770985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210770982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 1210770983}
+--- !u!1 &1220149049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1220149051}
+  - component: {fileID: 1220149050}
+  m_Layer: 0
+  m_Name: WindManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1220149050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220149049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f911d02bd9a1f40a28896b312b63d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BufferDecaySeconds: 0.5
+  _WindDirectionEvaluateSecondsMinimum: 5
+  _WindDirectionEvaluateSecondsMaximum: 10
+  _WindDirectionRotateSecondsMinimum: 2
+  _WindDirectionRotateSecondsMaximum: 4
+  _WindZone: {fileID: 1223561787}
+--- !u!4 &1220149051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220149049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1223561788}
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1223041094
 GameObject:
@@ -2498,6 +2604,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1223561786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1223561788}
+  - component: {fileID: 1223561787}
+  m_Layer: 0
+  m_Name: DirectionalWind
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!182 &1223561787
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223561786}
+  m_Enabled: 1
+  m_Mode: 0
+  m_Radius: 20
+  m_WindMain: 1
+  m_WindTurbulence: 0
+  m_WindPulseMagnitude: 0
+  m_WindPulseFrequency: 0
+--- !u!4 &1223561788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223561786}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1220149051}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1287662000
 GameObject:
   m_ObjectHideFlags: 0
@@ -2508,6 +2659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1287662001}
   - component: {fileID: 1287662002}
+  - component: {fileID: 1287662003}
   m_Layer: 0
   m_Name: Plants_16
   m_TagString: Untagged
@@ -2579,6 +2731,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1287662003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287662000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 1287662002}
 --- !u!1 &1314163159
 GameObject:
   m_ObjectHideFlags: 0
@@ -2967,6 +3132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553774043}
   - component: {fileID: 1553774042}
+  - component: {fileID: 1553774044}
   m_Layer: 0
   m_Name: Plants_11
   m_TagString: Untagged
@@ -3038,6 +3204,19 @@ Transform:
   m_Father: {fileID: 878982253}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1553774044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553774041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 1553774042}
 --- !u!1 &1578234337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7731,6 +7910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934061148}
   - component: {fileID: 1934061147}
+  - component: {fileID: 1934061149}
   m_Layer: 0
   m_Name: Plants_6
   m_TagString: Untagged
@@ -7802,6 +7982,19 @@ Transform:
   m_Father: {fileID: 878982253}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1934061149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934061146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abc2c563e214eedb83bda99608f8da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpriteRenderer: {fileID: 1934061147}
 --- !u!1 &1954861407
 GameObject:
   m_ObjectHideFlags: 0

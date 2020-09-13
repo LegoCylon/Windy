@@ -68,6 +68,8 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GustFrequency: 2
+    - _IndexScale: 0.75
+    - _IndexSpeed: 0
     - _Metallic: 0
     - _Mode: 0
     - _NoiseContrast: 1
@@ -82,8 +84,10 @@ Material:
     - _SrcBlend: 1
     - _SwayFrequency: 0.25
     - _SwayMagnitude: 0.25
+    - _SwayScale: 1
     - _SwaySpeed: 0.25
     - _UVSec: 0
+    - _WindIndex: 0
     - _WindResistance: 0
     - _ZWrite: 1
     m_Colors:
