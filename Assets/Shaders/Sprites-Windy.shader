@@ -4,21 +4,33 @@ Shader "Sprites/Windy"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
+        _NoiseTex ("Noise Texture", 2D) = "black" {}
+        _NoiseContrast ("Noise Contrast", Range(-1, 1)) = 1.0
+        _NoiseFrequency ("Noise Frequency", Float) = 0.25
+        _NoiseMagnitude ("Noise Magnitude", Float) = 0.25
+        _NoiseSpeed ("Noise Speed", Float) = 0.25
+        _SwayFrequency ("Sway Frequency", Float) = 0.25
+        _SwayMagnitude ("Sway Magnitude", Float) = 0.25
+        _SwaySpeed ("Sway Speed", Float) = 0.25
+        _WindResistance ("Wind Resistance", Range(0, 1)) = 0.0
     }
 
     HLSLINCLUDE
 
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
-
-        // Transforms position from object space to homogenous space
-        float4 TransformObjectToHClip(float3 positionOS)
-        {
-            // More efficient than computing M*VP matrix product
-            return mul(unity_MatrixVP, mul(unity_ObjectToWorld, float4(positionOS, 1.0)));
-        }
+        #include "SpaceTransforms.hlsl"
 
         TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
         float4 _Color;
+        TEXTURE2D_SAMPLER2D(_NoiseTex, sampler_NoiseTex);
+        float _NoiseContrast;
+        float _NoiseFrequency;
+        float _NoiseMagnitude;
+        float _NoiseSpeed;
+        float _SwayFrequency;
+        float _SwayMagnitude;
+        float _SwaySpeed;
+        float _WindResistance;
 
         struct Attributes
         {
@@ -36,8 +48,21 @@ Shader "Sprites/Windy"
 
         Varyings Vert(Attributes i)
         {
+            float heightAttenuation = 0.5 * (1 - _WindResistance) * (1 + i.vertex.y);
+
+            float3 wPos = TransformObjectToWorld(i.vertex);
+
+            float2 windVector = float2(2, 0);
+            float2 windNoiseCoord = (wPos.xy + _Time[1] * _NoiseSpeed) * _NoiseFrequency;
+            float windNoise = SAMPLE_TEXTURE2D_LOD(_NoiseTex, sampler_NoiseTex, windNoiseCoord, 0);
+            windNoise = _NoiseMagnitude * ((windNoise - 0.5) * (_NoiseContrast + 1)) + 0.5;
+
+            float2 windSway = 0.5 * _SwayMagnitude * ((1).xx + cos((wPos.xy + (_Time[1]).xx * _SwaySpeed)) * _SwayFrequency);
+
+            wPos.xy += heightAttenuation * (windVector * windNoise - windVector * windSway);
+
             Varyings o;
-            o.vertex = TransformObjectToHClip(i.vertex);
+            o.vertex = mul(GetWorldToHClipMatrix(), float4(wPos, 1.0));
             o.color = i.color * _Color;
             o.texcoord = i.texcoord;
 
