@@ -4,8 +4,6 @@ Shader "Sprites/Windy"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
-        _IndexScale ("Index Scale", Float) = 0.25
-        _IndexSpeed ("Index Speed", Float) = 0.25
         _NoiseTex ("Noise Texture", 2D) = "black" {}
         _NoiseContrast ("Noise Contrast", Range(-1, 1)) = 1.0
         _NoiseFrequency ("Noise Frequency", Float) = 0.25
@@ -27,8 +25,6 @@ Shader "Sprites/Windy"
 
         TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
         float4 _Color;
-        float _IndexScale;
-        float _IndexSpeed;
         TEXTURE2D_SAMPLER2D(_NoiseTex, sampler_NoiseTex);
         float _NoiseContrast;
         float _NoiseFrequency;
@@ -46,7 +42,8 @@ Shader "Sprites/Windy"
 
         #define WINDY_DEBUG_INDEX 0
         #define WINDY_DEBUG_NOISE 0
-        #define WINDY_DEBUG (WINDY_DEBUG_INDEX || WINDY_DEBUG_NOISE)
+        #define WINDY_DEBUG_SWAY 0
+        #define WINDY_DEBUG (WINDY_DEBUG_INDEX || WINDY_DEBUG_NOISE || WINDY_DEBUG_SWAY)
 
         struct Attributes
         {
@@ -144,8 +141,13 @@ Shader "Sprites/Windy"
                 o.color.rgb = float3(0.5, 0.5, 0.5);
             }
             #elif WINDY_DEBUG_NOISE
-            o.color.r = windNoise;
-            o.color.gb = 0.5 * (1 + windSway * normalize(windVector));
+            o.color.rgb = windNoise;
+            #elif WINDY_DEBUG_SWAY
+            o.color.rg = 0.5 * (1 + windSway * normalize(windVector));
+            o.color.b = 0;
+            #endif
+
+            #if WINDY_DEBUG
             o.color.a = heightAttenuation;
             #endif
 

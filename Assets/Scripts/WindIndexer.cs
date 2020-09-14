@@ -28,6 +28,11 @@ namespace Windy
             if (_SpriteRenderer != default)
             {
                 MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+                if (_SpriteRenderer.HasPropertyBlock())
+                {
+                    _SpriteRenderer.GetPropertyBlock(properties: propertyBlock);
+                }
+
                 propertyBlock.SetInt(
                     nameID: sWindIndexPropertyID,
                     value: Random.Range(min: 0, max: WindManager.cBufferLength - 1));
