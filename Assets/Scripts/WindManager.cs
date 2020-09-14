@@ -68,30 +68,40 @@ namespace Windy
                 timer: ref _WindDirectionEvaluateTimer,
                 seconds: _WindDirectionEvaluateSeconds);
 
+            // Wait until it's time to pick a new rotation.
             if (evaluateTimerExpired)
             {
+                // Keep the previous target as the new starting rotation and select the new rotation.
+                // Note that this assumes a specific rotation around the Y axis favorable to 2D games, so you may need
+                // to adjust this for your game's needs.
                 _WindDirectionRotationStart = _WindDirectionRotationTarget;
                 _WindDirectionRotationTarget = Quaternion.Euler(x: (180f * Random.value) - 180f, y: 90f, z: 0f);
 
-                _WindDirectionEvaluateTimer -= _WindDirectionEvaluateSeconds;
-                StartTimer(
-                    seconds: ref _WindDirectionEvaluateSeconds,
-                    secondsMinimum: _WindDirectionEvaluateSecondsMinimum,
-                    secondsMaximum: _WindDirectionEvaluateSecondsMaximum);
-
+                // Reset the rotation timer and pick a new rotation duration.
                 _WindDirectionRotateTimer -= _WindDirectionRotateSeconds;
                 StartTimer(
                     seconds: ref _WindDirectionRotateSeconds,
                     secondsMinimum: _WindDirectionRotateSecondsMinimum,
                     secondsMaximum: _WindDirectionRotateSecondsMaximum);
+
+                // Reset the evaluation timer and pick a new evaluation duration (which includes the rotation duration).
+                _WindDirectionEvaluateTimer -= _WindDirectionEvaluateSeconds;
+                StartTimer(
+                    seconds: ref _WindDirectionEvaluateSeconds,
+                    secondsMinimum: _WindDirectionEvaluateSecondsMinimum,
+                    secondsMaximum: _WindDirectionEvaluateSecondsMaximum);
+                _WindDirectionEvaluateSeconds += _WindDirectionRotateSeconds;
             }
 
+            // Wait until the rotation has finished. Note that we stop updating it once the timer has met or passed the
+            // requested duration since it would otherwise keep accumulating during the evaluation period.
             bool rotationTimerExpired =
                 _WindDirectionRotateTimer >= _WindDirectionRotateSeconds ||
                 UpdateTimer(deltaTime: Time.deltaTime,
                     timer: ref _WindDirectionRotateTimer,
                     seconds: _WindDirectionRotateSeconds);
 
+            // If the rotation has expired, then just ensure that the rotation is set to the target.
             if (rotationTimerExpired)
             {
                 if (_WindZone != default)
@@ -99,6 +109,8 @@ namespace Windy
                     _WindZone.transform.rotation = _WindDirectionRotationTarget;
                 }
             }
+            // Otherwise perform spherical linear interpolation between the start and end rotation based on elapsed
+            // time.
             else
             {
                 if (_WindZone != default)
@@ -113,7 +125,8 @@ namespace Windy
 
         private void UpdateBufferArrays()
         {
-            // Advance time and calculate how many existing buffers have finished interpolating.
+            // Advance time and calculate how many existing buffers have finished interpolating so we know how many
+            // buffer indices to skip.
             int decayCount;
             if (_BufferDecaySeconds > 0f)
             {
@@ -161,6 +174,7 @@ namespace Windy
                 }
             }
 
+            // Interpolate towards the target vector in the next buffer index based on normalized elapsed time.
             if (_BufferDecaySeconds > 0f)
             {
                 for (int bufferIndex = 0; bufferIndex < cBufferLength - 1; ++bufferIndex)
@@ -171,6 +185,7 @@ namespace Windy
                         t: _BufferDecayTimer / _BufferDecaySeconds);
                 }
             }
+            // Otherwise just set all values to the target.
             else
             {
                 for (int bufferIndex = 0; bufferIndex < cBufferLength - 1; ++bufferIndex)
@@ -179,6 +194,7 @@ namespace Windy
                 }
             }
 
+            // Update any interested shaders with the new wind vectors.
             Shader.SetGlobalVectorArray(nameID: sBufferVectorArrayPropertyID, values: _BufferCurrentArray);
         }
     }
