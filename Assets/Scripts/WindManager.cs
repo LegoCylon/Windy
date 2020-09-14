@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 #pragma warning disable 649 // Silence spurious warnings about private [SerializeField] values never being assigned.
 namespace Windy
